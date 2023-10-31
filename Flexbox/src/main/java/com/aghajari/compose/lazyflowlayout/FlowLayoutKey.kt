@@ -1,4 +1,4 @@
-package com.aghajari.compose.flexbox
+package com.aghajari.compose.lazyflowlayout
 
 import android.annotation.SuppressLint
 import android.os.Parcel

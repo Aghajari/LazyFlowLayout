@@ -1,4 +1,4 @@
-package com.aghajari.compose.flexbox
+package com.aghajari.compose.lazyflowlayout
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.runtime.Stable

@@ -1,4 +1,4 @@
-package com.aghajari.compose.flexbox
+package com.aghajari.compose.lazyflowlayout
 
 import android.animation.TypeEvaluator
 import androidx.compose.animation.core.AnimationSpec
