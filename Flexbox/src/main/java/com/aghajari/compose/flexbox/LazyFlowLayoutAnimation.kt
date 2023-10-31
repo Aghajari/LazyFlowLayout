@@ -9,14 +9,14 @@ import androidx.compose.runtime.Stable
 import androidx.compose.ui.unit.IntOffset
 
 /**
- * A [FlexboxAnimation] customizes the animation of each item movements in [Flexbox].
+ * A [LazyFlowLayoutAnimation] customizes the animation of each item movements in [LazyFlowLayout].
  * Whenever a new item is added or an item is removed that causes the position of
- * the items placed in the [Flexbox] to change, this change will be accompanied by
- * an animation that you can customize with [FlexboxAnimation].
- * You can disable it by passing null to the [Flexbox] animation parameter.
+ * the items placed in the [LazyFlowLayout] to change, this change will be accompanied by
+ * an animation that you can customize with [LazyFlowLayoutAnimation].
+ * You can disable it by passing null to the [LazyFlowLayout] animation parameter.
  */
 @Stable
-interface FlexboxAnimation {
+interface LazyFlowLayoutAnimation {
 
     /**
      * Threshold at which the animation may round off to its target value.
@@ -38,12 +38,12 @@ interface FlexboxAnimation {
 }
 
 /**
- * [DefaultFlexboxAnimation] enables the default movement animation on [Flexbox].
+ * [DefaultLazyFlowLayoutAnimation] enables the default movement animation on [LazyFlowLayout].
  * A [spring] will be used for [animationSpec] and [Spring.DefaultDisplacementThreshold]
  * will be set as [visibilityThreshold], the default cutoff for rounding off physics based animations.
  */
 @Stable
-internal class DefaultFlexboxAnimation : FlexboxAnimation {
+internal class DefaultLazyFlowLayoutAnimation : LazyFlowLayoutAnimation {
 
     override val visibilityThreshold =
         Spring.DefaultDisplacementThreshold
@@ -68,7 +68,7 @@ object IntOffsetEvaluator : TypeEvaluator<IntOffset> {
     )
 }
 
-internal fun FlexboxAnimation.evaluate(
+internal fun LazyFlowLayoutAnimation.evaluate(
     fraction: Float,
     startValue: IntOffset,
     endValue: IntOffset

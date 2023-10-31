@@ -2,7 +2,7 @@ package com.aghajari.compose.flexbox
 
 import androidx.compose.runtime.Composable
 
-internal class FlexboxScopeImpl : FlexboxScope {
+internal class LazyFlowLayoutScopeImpl : LazyFlowLayoutScope {
 
     private val _intervals = mutableListOf<FlexboxIntervalContent>()
     val intervals: List<FlexboxIntervalContent> = _intervals

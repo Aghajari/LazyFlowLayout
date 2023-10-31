@@ -3,9 +3,9 @@ package com.aghajari.compose.flexbox
 import androidx.compose.runtime.Composable
 
 /**
- * Receiver scope which is used by [Flexbox].
+ * Receiver scope which is used by [LazyFlowLayout].
  */
-interface FlexboxScope {
+interface LazyFlowLayoutScope {
 
     /**
      * Adds a single item.

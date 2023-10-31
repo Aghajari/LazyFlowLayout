@@ -17,48 +17,48 @@ import androidx.compose.ui.unit.Constraints
  * A layout composable that places its children in a way that basic CSS Flexible Box
  * Layout Module does.
  *
- * You can use this Layout to form the required [FlexboxLine]s and use the combination
- * of [Row]/[Column] and [Flexbox] for more advanced use such as two dimensional layout
+ * You can use this Layout to form the required [FlowLayoutLine]s and use the combination
+ * of [Row]/[Column] and [LazyFlowLayout] for more advanced use such as two dimensional layout
  * or flex grow. You can also create different arrangements such as RowReverse and
  * ColumnReverse by setting the desired [Arrangement]s.
  *
  * FlexDirection:
- * * [FlexDirection.Row]: Flexbox places the children horizontally in the vertical lines.
- * * [FlexDirection.Column]: Flexbox places the children vertically in the horizontal lines.
+ * * [FlowLayoutDirection.Row]: Flexbox places the children horizontally in the vertical lines.
+ * * [FlowLayoutDirection.Column]: Flexbox places the children vertically in the horizontal lines.
  *
  * Arrangement:
- * * If [FlexDirection] is [FlexDirection.Row],
+ * * If [FlowLayoutDirection] is [FlowLayoutDirection.Row],
  * [horizontalArrangement] defines the arrangement of [Placeable]s on the line
- * and [verticalArrangement] defines the arrangement of [FlexboxLine]s.
- * * If [FlexDirection] is [FlexDirection.Column],
+ * and [verticalArrangement] defines the arrangement of [FlowLayoutLine]s.
+ * * If [FlowLayoutDirection] is [FlowLayoutDirection.Column],
  * [verticalArrangement] defines the arrangement of [Placeable]s on the line
- * and [horizontalArrangement] defines the arrangement of [FlexboxLine]s.
+ * and [horizontalArrangement] defines the arrangement of [FlowLayoutLine]s.
  *
- * @param flexDirection The direction children items are placed, it determines the direction
+ * @param flowLayoutDirection The direction children items are placed, it determines the direction
  *  of the main axis.
  * @param modifier [Modifier] to apply for the layout.
  * @param horizontalArrangement Used to specify the horizontal arrangement of [Placeable]s.
  * @param verticalArrangement Used to specify the vertical arrangement of [Placeable]s.
- * @param itemInlineAlignment The default alignment of [Placeable]s inside a [FlexboxLine].
+ * @param itemInlineAlignment The default alignment of [Placeable]s inside a [FlowLayoutLine].
  * @param maxLines an optional maximum number of lines. It must be greater than zero.
  * @param animation The animation of item movements. A [spring] spec will be used for
  *  the animation by default. Pass null to disable the animation.
  * @param content a block which describes the content. Inside this block you can use methods
- *  like [FlexboxScope.item] to add a single item or [FlexboxScope.items] to add a list of items.
+ *  like [LazyFlowLayoutScope.item] to add a single item or [LazyFlowLayoutScope.items] to add a list of items.
  *
  * @author Aghajari
  */
 @Composable
-fun Flexbox(
-    flexDirection: FlexDirection,
+internal fun LazyFlowLayout(
+    flowLayoutDirection: FlowLayoutDirection,
     modifier: Modifier = Modifier,
     horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
     verticalArrangement: Arrangement.Vertical = Arrangement.Top,
     itemInlineAlignment: Alignment = Alignment.Center,
     maxLines: Int = Int.MAX_VALUE,
-    animation: FlexboxAnimation? = DefaultFlexboxAnimation(),
-    content: FlexboxScope.() -> Unit
-) = with(flexDirection) {
+    animation: LazyFlowLayoutAnimation? = DefaultLazyFlowLayoutAnimation(),
+    content: LazyFlowLayoutScope.() -> Unit
+) = with(flowLayoutDirection) {
     require(maxLines > 0) {
         "maxLines must be greater than zero."
     }
@@ -72,14 +72,14 @@ fun Flexbox(
     val animationState = animation?.let {
         val coroutineScope = rememberCoroutineScope()
         remember(animation) {
-            FlexboxAnimationState(animation, coroutineScope)
+            LazyFlowLayoutAnimationState(animation, coroutineScope)
         }
     }
 
     SubcomposeLayout(modifier) { constraints ->
         var availableLineSpace = constraints.flexLineSpace
-        var currentLine = FlexboxLine()
-        val lines = mutableSetOf<FlexboxLine>()
+        var currentLine = FlowLayoutLine()
+        val lines = mutableSetOf<FlowLayoutLine>()
         animationState?.startComposition()
 
         itemProvider.forEach { key, content ->
@@ -118,7 +118,7 @@ fun Flexbox(
                 } else {
                     currentLine.close(itemsPaddingPx)
                     lines.add(currentLine)
-                    currentLine = FlexboxLine()
+                    currentLine = FlowLayoutLine()
                     currentLine.addPlaceables(
                         itemContents,
                         constraints.flexSpace,

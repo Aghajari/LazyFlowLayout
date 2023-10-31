@@ -6,7 +6,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 
-internal interface FlexboxItemProvider {
+internal interface FlowLayoutItemProvider {
 
     /**
      * Performs the given [action] on each item.
@@ -23,22 +23,22 @@ internal interface FlexboxItemProvider {
 
 @Composable
 internal fun rememberFlexboxItemProvider(
-    content: FlexboxScope.() -> Unit,
-): FlexboxItemProvider {
+    content: LazyFlowLayoutScope.() -> Unit,
+): FlowLayoutItemProvider {
     val latestContent = rememberUpdatedState(content)
 
     return remember {
-        val listScope = FlexboxScopeImpl().apply(latestContent.value)
+        val listScope = LazyFlowLayoutScopeImpl().apply(latestContent.value)
         val itemProviderState = derivedStateOf {
-            FlexboxItemProviderImpl(listScope.intervals)
+            FlowLayoutItemProviderImpl(listScope.intervals)
         }
         delegatingFlexboxItemProvider(itemProviderState)
     }
 }
 
-internal class FlexboxItemProviderImpl(
+internal class FlowLayoutItemProviderImpl(
     private val intervals: List<FlexboxIntervalContent>
-) : FlexboxItemProvider {
+) : FlowLayoutItemProvider {
 
     override fun forEach(
         action: (
@@ -50,7 +50,7 @@ internal class FlexboxItemProviderImpl(
         for (interval in intervals) {
             for (localIndex in interval.indices) {
                 val key = interval.key?.invoke(localIndex)
-                    ?: getDefaultFlexboxKey(index)
+                    ?: getDefaultFlowLayoutKey(index)
                 val keepGoing = action.invoke(
                     key,
                     interval.composable(localIndex)
@@ -65,19 +65,19 @@ internal class FlexboxItemProviderImpl(
 }
 
 /**
- * Delegating version of [FlexboxItemProvider], abstracting internal [State] access.
- * This way, passing [FlexboxItemProvider] will not trigger recomposition unless
+ * Delegating version of [FlowLayoutItemProvider], abstracting internal [State] access.
+ * This way, passing [FlowLayoutItemProvider] will not trigger recomposition unless
  * its methods are called within composable functions.
  *
- * @param delegate [State] to delegate [FlexboxItemProvider] functionality to.
+ * @param delegate [State] to delegate [FlowLayoutItemProvider] functionality to.
  */
 private fun delegatingFlexboxItemProvider(
-    delegate: State<FlexboxItemProvider>
-): FlexboxItemProvider = DefaultDelegatingFlexboxItemProvider(delegate)
+    delegate: State<FlowLayoutItemProvider>
+): FlowLayoutItemProvider = DefaultDelegatingFlowLayoutItemProvider(delegate)
 
-private class DefaultDelegatingFlexboxItemProvider(
-    private val delegate: State<FlexboxItemProvider>
-) : FlexboxItemProvider {
+private class DefaultDelegatingFlowLayoutItemProvider(
+    private val delegate: State<FlowLayoutItemProvider>
+) : FlowLayoutItemProvider {
 
     override fun forEach(action: (key: Any, content: @Composable () -> Unit) -> Boolean) =
         delegate.value.forEach(action)

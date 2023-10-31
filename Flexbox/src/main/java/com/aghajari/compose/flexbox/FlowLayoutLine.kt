@@ -5,11 +5,11 @@ import androidx.compose.ui.layout.Placeable
 import kotlin.math.max
 
 /**
- * [FlexboxLine] holds all [Placeable]s that fit on a line,
- * relative to the [Flexbox] constraints.
+ * [FlowLayoutLine] holds all [Placeable]s that fit on a line,
+ * relative to the [LazyFlowLayout] constraints.
  */
 @Stable
-class FlexboxLine {
+internal class FlowLayoutLine {
 
     /**
      * List of all [Placeable]s on this line.

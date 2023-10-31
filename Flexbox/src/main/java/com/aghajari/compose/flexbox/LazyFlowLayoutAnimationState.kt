@@ -8,13 +8,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 /**
- * Creates and holds the state of [Flexbox] animation.
- * The animation will use the provided [FlexboxAnimation] to animate the value towards the
+ * Creates and holds the state of [LazyFlowLayout] animation.
+ * The animation will use the provided [LazyFlowLayoutAnimation] to animate the value towards the
  * target position.
  */
 @Stable
-class FlexboxAnimationState(
-    private val animation: FlexboxAnimation,
+class LazyFlowLayoutAnimationState(
+    private val animation: LazyFlowLayoutAnimation,
     private val coroutineScope: CoroutineScope,
 ) {
 
@@ -36,7 +36,7 @@ class FlexboxAnimationState(
      * Stores [AnimationValues] of the previous composition [Placeable]s.
      *
      * __note__: Delete this field from memory at the end of composition.
-     * Because some [Placeable]s may have been completely removed from [Flexbox]
+     * Because some [Placeable]s may have been completely removed from [LazyFlowLayout]
      * and we should no longer keep them in memory.
      */
     private var previousPlaceableMap: Map<Placeable, AnimationValues>? = null
@@ -63,7 +63,7 @@ class FlexboxAnimationState(
     }
 
     /**
-     * We add every [Placeable] that was added to the [Flexbox] during Composition to
+     * We add every [Placeable] that was added to the [LazyFlowLayout] during Composition to
      * the [placeableMap]. [AnimationValues] should be taken from [previousPlaceableMap].
      * If the [Placeable] is created for the very first time, we create a new initial
      * object of [AnimationValues] for it.
@@ -154,7 +154,7 @@ internal data class AnimationValues(
 
 private val noValue = IntOffset(Int.MIN_VALUE, Int.MIN_VALUE)
 
-internal fun FlexboxAnimationState?.findPlaceablePosition(
+internal fun LazyFlowLayoutAnimationState?.findPlaceablePosition(
     placeable: Placeable,
     position: IntOffset
 ): IntOffset {

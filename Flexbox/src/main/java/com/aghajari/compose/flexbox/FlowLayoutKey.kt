@@ -4,10 +4,10 @@ import android.annotation.SuppressLint
 import android.os.Parcel
 import android.os.Parcelable
 
-fun getDefaultFlexboxKey(index: Int): Any = DefaultFlexboxKey(index)
+internal fun getDefaultFlowLayoutKey(index: Int): Any = DefaultFlowLayoutKey(index)
 
 @SuppressLint("BanParcelableUsage")
-private data class DefaultFlexboxKey(private val index: Int) : Parcelable {
+private data class DefaultFlowLayoutKey(private val index: Int) : Parcelable {
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeInt(index)
     }
@@ -19,12 +19,12 @@ private data class DefaultFlexboxKey(private val index: Int) : Parcelable {
     companion object {
         @Suppress("unused")
         @JvmField
-        val CREATOR: Parcelable.Creator<DefaultFlexboxKey> =
-            object : Parcelable.Creator<DefaultFlexboxKey> {
+        val CREATOR: Parcelable.Creator<DefaultFlowLayoutKey> =
+            object : Parcelable.Creator<DefaultFlowLayoutKey> {
                 override fun createFromParcel(parcel: Parcel) =
-                    DefaultFlexboxKey(parcel.readInt())
+                    DefaultFlowLayoutKey(parcel.readInt())
 
-                override fun newArray(size: Int) = arrayOfNulls<DefaultFlexboxKey?>(size)
+                override fun newArray(size: Int) = arrayOfNulls<DefaultFlowLayoutKey?>(size)
             }
     }
 }

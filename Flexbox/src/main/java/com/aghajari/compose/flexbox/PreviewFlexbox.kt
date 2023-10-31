@@ -22,29 +22,48 @@ import androidx.compose.ui.unit.dp
     showBackground = true
 )
 @Composable
-private fun PreviewFlexbox(
-    @PreviewParameter(FlexboxPreviewParamProvider::class)
-    param: FlexboxPreviewParam
+private fun PreviewLazyFlowColumn(
+    @PreviewParameter(FlowLayoutPreviewParamProvider::class)
+    param: FlowLayoutPreviewParam
 ) {
-    Flexbox(
-        flexDirection = param.first,
-        content = param.second,
+
+    LazyFlowColumn(
+        modifier = Modifier
+            .padding(16.dp)
+            .height(200.dp),
+        content = param,
         horizontalArrangement = Arrangement.spacedBy(
             8.dp, Alignment.CenterHorizontally
         ),
         verticalArrangement = Arrangement.spacedBy(
             8.dp, Alignment.CenterVertically
         ),
-        itemInlineAlignment = Alignment.Center,
+        itemInlineAlignment = Alignment.Center
+    )
+}
+
+@Preview(
+    backgroundColor = 0xFFFFFFFF,
+    showBackground = true
+)
+@Composable
+private fun PreviewLazyFlowRow(
+    @PreviewParameter(FlowLayoutPreviewParamProvider::class)
+    param: FlowLayoutPreviewParam
+) {
+
+    LazyFlowRow(
         modifier = Modifier
             .padding(16.dp)
-            .run {
-                if (param.first.isHorizontal()) {
-                    width(400.dp)
-                } else {
-                    height(200.dp)
-                }
-            }
+            .width(400.dp),
+        content = param,
+        horizontalArrangement = Arrangement.spacedBy(
+            8.dp, Alignment.CenterHorizontally
+        ),
+        verticalArrangement = Arrangement.spacedBy(
+            8.dp, Alignment.CenterVertically
+        ),
+        itemInlineAlignment = Alignment.Center
     )
 }
 
@@ -68,26 +87,25 @@ private fun SampleItem(text: String) {
     )
 }
 
-private typealias FlexboxPreviewParam =
-        Pair<FlexDirection, FlexboxScope.() -> Unit>
+private typealias FlowLayoutPreviewParam = LazyFlowLayoutScope.() -> Unit
 
-private class FlexboxPreviewParamProvider : PreviewParameterProvider<FlexboxPreviewParam> {
-    override val values: Sequence<FlexboxPreviewParam> = sequenceOf(
-        FlexDirection.Row to complexSample(),
-        FlexDirection.Row to {
+private class FlowLayoutPreviewParamProvider : PreviewParameterProvider<FlowLayoutPreviewParam> {
+    override val values: Sequence<FlowLayoutPreviewParam> = sequenceOf(
+        complexSample(),
+        {
             items(2) {
                 SampleItem("Row $it")
             }
         },
-        FlexDirection.Column to complexSample(),
-        FlexDirection.Column to {
+        complexSample(),
+        {
             items(2) {
                 SampleItem("Column $it")
             }
         }
     )
 
-    private fun complexSample(): FlexboxScope.() -> Unit {
+    private fun complexSample(): LazyFlowLayoutScope.() -> Unit {
         return {
             items(2) {
                 SampleItem(" Hello \n$it")

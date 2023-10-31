@@ -18,32 +18,32 @@ import androidx.compose.ui.unit.constrainWidth
 import kotlin.math.max
 
 /**
- * The direction children items are placed inside the [Flexbox],
+ * The direction children items are placed inside the [LazyFlowLayout],
  * it determines the direction of the main axis.
  */
 @Stable
-interface FlexDirection {
+internal interface FlowLayoutDirection {
 
     /**
      * The maximum available space that can be occupied by
-     * contents of each [FlexboxLine], in pixels.
+     * contents of each [FlowLayoutLine], in pixels.
      */
     val Constraints.flexSpace: Int
 
     /**
      * The maximum available space that can be occupied by
-     * [FlexboxLine]s, in pixels.
+     * [FlowLayoutLine]s, in pixels.
      */
     val Constraints.flexLineSpace: Int
 
     /**
-     * The space that this [Placeable] occupies in a [FlexboxLine]
+     * The space that this [Placeable] occupies in a [FlowLayoutLine]
      * in the direction of the contents in the line, in pixels.
      */
     val Placeable.flexContentSpace: Int
 
     /**
-     * The space that this [Placeable] occupies in a [FlexboxLine]
+     * The space that this [Placeable] occupies in a [FlowLayoutLine]
      * in the direction of the lines, in pixels.
      */
     val Placeable.flexContentLineSpace: Int
@@ -51,30 +51,30 @@ interface FlexDirection {
     /**
      * Places the layout [Placeable]s.
      *
-     * @param constraints The [Constraints] of the [Flexbox]
-     * @param itemInlineAlignment The default alignment of [Placeable]s inside a [FlexboxLine].
+     * @param constraints The [Constraints] of the [LazyFlowLayout]
+     * @param itemInlineAlignment The default alignment of [Placeable]s inside a [FlowLayoutLine].
      * @param animationState The animation state to calculate the position of each [Placeable]
-     *  with [FlexboxAnimation] in mind.
-     * @param lines The list of all [FlexboxLine]s that includes the [Placeable]s of each line.
+     *  with [LazyFlowLayoutAnimation] in mind.
+     * @param lines The list of all [FlowLayoutLine]s that includes the [Placeable]s of each line.
      * @param horizontalArrangement Used to specify the horizontal arrangement of the layout's [Placeable]s.
      * @param verticalArrangement Used to specify the vertical arrangement of the layout's [Placeable]s.
      */
     fun MeasureScope.flexLayout(
         constraints: Constraints,
         itemInlineAlignment: Alignment,
-        animationState: FlexboxAnimationState?,
-        lines: Set<FlexboxLine>,
+        animationState: LazyFlowLayoutAnimationState?,
+        lines: Set<FlowLayoutLine>,
         horizontalArrangement: Arrangement.Horizontal,
         verticalArrangement: Arrangement.Vertical
     ): MeasureResult
 
     /**
      * An interface to calculate the position of [Placeable]s where
-     * [Placeable]s on each [FlexboxLine] are arranged horizontally
-     * in a row and the [FlexboxLine]s are arranged vertically.
+     * [Placeable]s on each [FlowLayoutLine] are arranged horizontally
+     * in a row and the [FlowLayoutLine]s are arranged vertically.
      */
     @Stable
-    interface Horizontal : FlexDirection {
+    interface Horizontal : FlowLayoutDirection {
         override val Constraints.flexSpace: Int
             get() = maxWidth
         override val Constraints.flexLineSpace: Int
@@ -87,8 +87,8 @@ interface FlexDirection {
         override fun MeasureScope.flexLayout(
             constraints: Constraints,
             itemInlineAlignment: Alignment,
-            animationState: FlexboxAnimationState?,
-            lines: Set<FlexboxLine>,
+            animationState: LazyFlowLayoutAnimationState?,
+            lines: Set<FlowLayoutLine>,
             horizontalArrangement: Arrangement.Horizontal,
             verticalArrangement: Arrangement.Vertical
         ): MeasureResult {
@@ -121,10 +121,10 @@ interface FlexDirection {
                             IntOffset(
                                 x = placeablePositions[placeableIndex],
                                 y = outLinesPositions[lineIndex] +
-                                        itemInlineAlignment.alignVertical(
-                                            placeable.height,
-                                            getLineSpace(line)
-                                        )
+                                    itemInlineAlignment.alignVertical(
+                                        placeable.height,
+                                        getLineSpace(line)
+                                    )
                             )
                         )
                         placeable.place(position)
@@ -136,11 +136,11 @@ interface FlexDirection {
 
     /**
      * An interface to calculate the position of [Placeable]s where
-     * [Placeable]s on each [FlexboxLine] are arranged vertically
-     * in a column and the [FlexboxLine]s are arranged horizontally.
+     * [Placeable]s on each [FlowLayoutLine] are arranged vertically
+     * in a column and the [FlowLayoutLine]s are arranged horizontally.
      */
     @Stable
-    interface Vertical : FlexDirection {
+    interface Vertical : FlowLayoutDirection {
         override val Constraints.flexSpace: Int
             get() = maxHeight
         override val Constraints.flexLineSpace: Int
@@ -153,8 +153,8 @@ interface FlexDirection {
         override fun MeasureScope.flexLayout(
             constraints: Constraints,
             itemInlineAlignment: Alignment,
-            animationState: FlexboxAnimationState?,
-            lines: Set<FlexboxLine>,
+            animationState: LazyFlowLayoutAnimationState?,
+            lines: Set<FlowLayoutLine>,
             horizontalArrangement: Arrangement.Horizontal,
             verticalArrangement: Arrangement.Vertical
         ): MeasureResult {
@@ -186,11 +186,11 @@ interface FlexDirection {
                             placeable,
                             IntOffset(
                                 x = outLinesPositions[lineIndex] +
-                                        itemInlineAlignment.alignHorizontal(
-                                            placeable.width,
-                                            getLineSpace(line),
-                                            layoutDirection
-                                        ),
+                                    itemInlineAlignment.alignHorizontal(
+                                        placeable.width,
+                                        getLineSpace(line),
+                                        layoutDirection
+                                    ),
                                 y = placeablePositions[placeableIndex]
                             )
                         )
@@ -225,29 +225,29 @@ interface FlexDirection {
 }
 
 /**
- * @return True if [Placeable]s on each [FlexboxLine] are
+ * @return True if [Placeable]s on each [FlowLayoutLine] are
  * arranged horizontally in a row.
  */
-internal fun FlexDirection.isHorizontal(): Boolean {
-    return this is FlexDirection.Horizontal
+internal fun FlowLayoutDirection.isHorizontal(): Boolean {
+    return this is FlowLayoutDirection.Horizontal
 }
 
 /**
  * Calculates the space between each two [Placeable]s
- * and each two [FlexboxLine]s based on the specified
+ * and each two [FlowLayoutLine]s based on the specified
  * [Arrangement]s.
  *
- * * If [FlexDirection] is [FlexDirection.Horizontal],
+ * * If [FlowLayoutDirection] is [FlowLayoutDirection.Horizontal],
  * [horizontalArrangement] defines the distance between
  * [Placeable]s and [verticalArrangement] determines the
- * distance between [FlexboxLine]s.
- * * If [FlexDirection] is [FlexDirection.Vertical],
+ * distance between [FlowLayoutLine]s.
+ * * If [FlowLayoutDirection] is [FlowLayoutDirection.Vertical],
  * [verticalArrangement] defines the distance between
  * [Placeable]s and [horizontalArrangement] determines the
- * distance between [FlexboxLine]s.
+ * distance between [FlowLayoutLine]s.
  */
 @Composable
-internal fun FlexDirection.resolveSpacingsInPx(
+internal fun FlowLayoutDirection.resolveSpacingsInPx(
     horizontalArrangement: Arrangement.Horizontal,
     verticalArrangement: Arrangement.Vertical
 ): Pair<Int, Int> {
@@ -298,19 +298,19 @@ private fun Alignment.alignVertical(
 }
 
 /**
- * Returns the space that the specified [FlexboxLine] occupies
+ * Returns the space that the specified [FlowLayoutLine] occupies
  * in the direction of the lines, in pixels.
  */
-internal fun FlexDirection.getLineSpace(line: FlexboxLine): Int {
+internal fun FlowLayoutDirection.getLineSpace(line: FlowLayoutLine): Int {
     return line.placeables.maxOfOrNull { it.flexContentLineSpace } ?: 0
 }
 
 /**
- * Returns list of sizes that each [FlexboxLine] occupies
+ * Returns list of sizes that each [FlowLayoutLine] occupies
  * in the direction of the lines, in pixels.
  */
-private fun FlexDirection.getLinesSizes(
-    lines: Set<FlexboxLine>,
+private fun FlowLayoutDirection.getLinesSizes(
+    lines: Set<FlowLayoutLine>,
     linesPadding: Int
 ): Pair<IntArray, Int> {
     val sizes = IntArray(lines.size)
@@ -324,8 +324,8 @@ private fun FlexDirection.getLinesSizes(
 }
 
 /**
- * Returns the maximum space that the [FlexboxLine]s occupies
+ * Returns the maximum space that the [FlowLayoutLine]s occupies
  * in the direction of the contents in the line, in pixels.
  */
-private val Set<FlexboxLine>.maxContentSpace: Int
+private val Set<FlowLayoutLine>.maxContentSpace: Int
     get() = maxOfOrNull { it.usedSpace } ?: 0
