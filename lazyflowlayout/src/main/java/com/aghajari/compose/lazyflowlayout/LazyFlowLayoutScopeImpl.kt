@@ -4,15 +4,15 @@ import androidx.compose.runtime.Composable
 
 internal class LazyFlowLayoutScopeImpl : LazyFlowLayoutScope {
 
-    private val _intervals = mutableListOf<FlexboxIntervalContent>()
-    val intervals: List<FlexboxIntervalContent> = _intervals
+    private val _intervals = mutableListOf<LazyFlowlayoutIntervalContent>()
+    val intervals: List<LazyFlowlayoutIntervalContent> = _intervals
 
     override fun item(
         key: Any?,
         itemContent: @Composable () -> Unit
     ) {
         _intervals.add(
-            FixedFlexboxIntervalContent(
+            FixedLazyFlowlayoutIntervalContent(
                 itemCount = 1,
                 key = key?.let { { key } }
             ) {
@@ -26,7 +26,7 @@ internal class LazyFlowLayoutScopeImpl : LazyFlowLayoutScope {
         key: ((index: Int) -> Any)?,
         itemContent: @Composable (index: Int) -> Unit
     ) {
-        _intervals.add(FixedFlexboxIntervalContent(count, key, itemContent))
+        _intervals.add(FixedLazyFlowlayoutIntervalContent(count, key, itemContent))
     }
 
     override fun <T> itemsIndexed(
@@ -35,7 +35,7 @@ internal class LazyFlowLayoutScopeImpl : LazyFlowLayoutScope {
         itemContent: @Composable (index: Int, item: T) -> Unit
     ) {
         _intervals.add(
-            ListFlexboxIntervalContent(items, key) { index, item ->
+            ListLazyFlowlayoutIntervalContent(items, key) { index, item ->
                 itemContent(index, item)
             }
         )
@@ -47,36 +47,36 @@ internal class LazyFlowLayoutScopeImpl : LazyFlowLayoutScope {
         itemContent: @Composable (item: T) -> Unit
     ) {
         _intervals.add(
-            ListFlexboxIntervalContent(items, key) { _, item ->
+            ListLazyFlowlayoutIntervalContent(items, key) { _, item ->
                 itemContent(item)
             }
         )
     }
 }
 
-internal interface FlexboxIntervalContent {
+internal interface LazyFlowlayoutIntervalContent {
     val itemCount: Int
     val key: ((index: Int) -> Any)?
 
     fun composable(index: Int): @Composable () -> Unit
 }
 
-internal class FixedFlexboxIntervalContent(
+internal class FixedLazyFlowlayoutIntervalContent(
     override val itemCount: Int,
     override val key: ((index: Int) -> Any)?,
     private val item: @Composable (index: Int) -> Unit
-) : FlexboxIntervalContent {
+) : LazyFlowlayoutIntervalContent {
 
     override fun composable(index: Int): @Composable () -> Unit = {
         item.invoke(index)
     }
 }
 
-internal class ListFlexboxIntervalContent<T>(
+internal class ListLazyFlowlayoutIntervalContent<T>(
     private val list: List<T>,
     override val key: ((index: Int) -> Any)?,
     private val item: @Composable (index: Int, value: T) -> Unit
-) : FlexboxIntervalContent {
+) : LazyFlowlayoutIntervalContent {
 
     override val itemCount: Int
         get() = list.size
@@ -89,5 +89,5 @@ internal class ListFlexboxIntervalContent<T>(
     }
 }
 
-internal val FlexboxIntervalContent.indices: IntRange
+internal val LazyFlowlayoutIntervalContent.indices: IntRange
     get() = 0 until itemCount

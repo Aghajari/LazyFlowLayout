@@ -199,7 +199,7 @@ If you have fixed amount you can use enums as keys, or if you have a list of ite
 If `null` is passed the position in the list will represent the key.
 
 ```kotlin
-Flexbox(...) {
+LazyFlowRow(...) {
     items(
         list,
         key = { list[it].key }

@@ -59,7 +59,7 @@ internal interface FlowLayoutDirection {
      * @param horizontalArrangement Used to specify the horizontal arrangement of the layout's [Placeable]s.
      * @param verticalArrangement Used to specify the vertical arrangement of the layout's [Placeable]s.
      */
-    fun MeasureScope.flexLayout(
+    fun MeasureScope.flowLayout(
         constraints: Constraints,
         itemInlineAlignment: Alignment,
         animationState: LazyFlowLayoutAnimationState?,
@@ -84,7 +84,7 @@ internal interface FlowLayoutDirection {
         override val Placeable.flexContentLineSpace: Int
             get() = height
 
-        override fun MeasureScope.flexLayout(
+        override fun MeasureScope.flowLayout(
             constraints: Constraints,
             itemInlineAlignment: Alignment,
             animationState: LazyFlowLayoutAnimationState?,
@@ -150,7 +150,7 @@ internal interface FlowLayoutDirection {
         override val Placeable.flexContentLineSpace: Int
             get() = width
 
-        override fun MeasureScope.flexLayout(
+        override fun MeasureScope.flowLayout(
             constraints: Constraints,
             itemInlineAlignment: Alignment,
             animationState: LazyFlowLayoutAnimationState?,
@@ -210,7 +210,7 @@ internal interface FlowLayoutDirection {
          */
         @Stable
         val Row = object : Horizontal {
-            override fun toString() = "FlexDirection#Row"
+            override fun toString() = "FlowLayoutDirection#Row"
         }
 
         /**
@@ -219,7 +219,7 @@ internal interface FlowLayoutDirection {
          */
         @Stable
         val Column = object : Vertical {
-            override fun toString() = "FlexDirection#Column"
+            override fun toString() = "FlowLayoutDirection#Column"
         }
     }
 }

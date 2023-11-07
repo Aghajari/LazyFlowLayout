@@ -22,7 +22,7 @@ internal interface FlowLayoutItemProvider {
 }
 
 @Composable
-internal fun rememberFlexboxItemProvider(
+internal fun rememberLazyFlowLayoutItemProvider(
     content: LazyFlowLayoutScope.() -> Unit,
 ): FlowLayoutItemProvider {
     val latestContent = rememberUpdatedState(content)
@@ -32,12 +32,12 @@ internal fun rememberFlexboxItemProvider(
         val itemProviderState = derivedStateOf {
             FlowLayoutItemProviderImpl(listScope.intervals)
         }
-        delegatingFlexboxItemProvider(itemProviderState)
+        delegatingLazyFlowLayoutItemProvider(itemProviderState)
     }
 }
 
 internal class FlowLayoutItemProviderImpl(
-    private val intervals: List<FlexboxIntervalContent>
+    private val intervals: List<LazyFlowlayoutIntervalContent>
 ) : FlowLayoutItemProvider {
 
     override fun forEach(
@@ -71,7 +71,7 @@ internal class FlowLayoutItemProviderImpl(
  *
  * @param delegate [State] to delegate [FlowLayoutItemProvider] functionality to.
  */
-private fun delegatingFlexboxItemProvider(
+private fun delegatingLazyFlowLayoutItemProvider(
     delegate: State<FlowLayoutItemProvider>
 ): FlowLayoutItemProvider = DefaultDelegatingFlowLayoutItemProvider(delegate)
 

@@ -22,9 +22,9 @@ import androidx.compose.ui.unit.Constraints
  * or flex grow. You can also create different arrangements such as RowReverse and
  * ColumnReverse by setting the desired [Arrangement]s.
  *
- * FlexDirection:
- * * [FlowLayoutDirection.Row]: Flexbox places the children horizontally in the vertical lines.
- * * [FlowLayoutDirection.Column]: Flexbox places the children vertically in the horizontal lines.
+ * LazyFlowLayoutDirection:
+ * * [FlowLayoutDirection.Row]: LazyFlowLayout places the children horizontally in the vertical lines.
+ * * [FlowLayoutDirection.Column]: LazyFlowLayout places the children vertically in the horizontal lines.
  *
  * Arrangement:
  * * If [FlowLayoutDirection] is [FlowLayoutDirection.Row],
@@ -63,7 +63,7 @@ internal fun LazyFlowLayout(
         "maxLines must be greater than zero."
     }
 
-    val itemProvider = rememberFlexboxItemProvider(content)
+    val itemProvider = rememberLazyFlowLayoutItemProvider(content)
     val (itemsPaddingPx, linesPaddingPx) = resolveSpacingsInPx(
         horizontalArrangement,
         verticalArrangement
@@ -139,7 +139,7 @@ internal fun LazyFlowLayout(
         currentLine.close(itemsPaddingPx)
         lines.add(currentLine)
 
-        flexLayout(
+        flowLayout(
             constraints,
             itemInlineAlignment,
             animationState,

@@ -1,4 +1,4 @@
-package com.aghajari.flexboxtest
+package com.aghajari.lazyflowlayouttest
 
 import org.junit.Test
 

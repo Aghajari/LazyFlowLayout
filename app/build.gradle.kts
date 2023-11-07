@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.aghajari.flexboxtest"
+    namespace = "com.aghajari.lazyflowlayouttest"
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "com.aghajari.flexboxtest"
+        applicationId = "com.aghajari.lazyflowlayouttest"
         minSdk = 21
         targetSdk = 33
         versionCode = 1

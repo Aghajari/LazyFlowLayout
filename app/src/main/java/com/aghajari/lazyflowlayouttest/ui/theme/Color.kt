@@ -1,4 +1,4 @@
-package com.aghajari.flexboxtest.ui.theme
+package com.aghajari.lazyflowlayouttest.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

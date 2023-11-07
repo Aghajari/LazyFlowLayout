@@ -1,4 +1,4 @@
-package com.aghajari.flexboxtest
+package com.aghajari.lazyflowlayouttest
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -30,13 +30,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.aghajari.compose.lazyflowlayout.LazyFlowRow
-import com.aghajari.flexboxtest.ui.theme.ComposeFlexboxTheme
+import com.aghajari.lazyflowlayouttest.ui.theme.LazyFlowLayoutTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            ComposeFlexboxTheme {
+            LazyFlowLayoutTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -138,7 +138,7 @@ fun AddIcon(
 @Preview(showBackground = true)
 @Composable
 fun Preview() {
-    ComposeFlexboxTheme {
+    LazyFlowLayoutTheme {
         CreateBox(Modifier.fillMaxWidth())
     }
 }
@@ -151,7 +151,7 @@ val randomWords = arrayOf(
     "B",
     "C",
     "D",
-    "Flexbox",
+    "LazyFlowLayout",
     "Oops",
     "Awesome",
     "E"

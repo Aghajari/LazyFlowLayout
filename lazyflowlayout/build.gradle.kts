@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.aghajari.compose.flexbox"
+    namespace = "com.aghajari.compose.lazyflowlayout"
     compileSdk = 33
 
     defaultConfig {
