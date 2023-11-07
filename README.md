@@ -1,4 +1,4 @@
-# Flexbox-Compose
+# LazyFlowLayout
 [![Platform](https://img.shields.io/badge/platform-android-green.svg)](http://developer.android.com/index.html)
 [![API](https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=21)
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.aghajari/Flexbox-Compose.svg?label=Maven%20Central)](https://search.maven.org/artifact/io.github.aghajari/Flexbox-Compose/1.0.0/aar)
@@ -7,17 +7,17 @@
  A [Jetpack Compose](https://developer.android.com/jetpack/compose) [layout](https://developer.android.com/jetpack/compose/layouts) that places its children in a way that [CSS Flexible Box Layout](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout) Module does.
 
  <br>
-<img src="./images/Flexbox.gif" width=500 title="Flexbox Preview">
+<img src="images/lazyFlowLayout.gif" width=500 title="Lazy Flow Layout Preview">
 
 ## Table of Contents  
 - [Installation](#installation)  
 - [Usage](#usage)
-  - [Flexbox Row](#flexbox-row)
-  - [Flexbox Column](#flexbox-column)
+  - [LazyFlowRow](#flexbox-row)
+  - [LazyFlowColumn](#flexbox-column)
   - [Arrangements](#arrangements)
   - [MaxLines](#maxlines)
   - [Item Inline Alignment](#item-inline-alignment)
-  - [Flexbox Animation](#flexbox-animation)
+  - [Animation](#flexbox-animation)
   - [Key Identifier](#key-identifier)
 - [Author](#author)
 - [License](#license)
@@ -25,7 +25,7 @@
   
 ## Installation
 
-**Flexbox-Compose** is available in the `mavenCentral()`, so you just need to add it as a dependency (Module gradle)
+**LazyFlowLayout** is available in the `mavenCentral()`, so you just need to add it as a dependency (Module gradle)
 
 ```gradle
 implementation("io.github.aghajari:Flexbox-Compose:1.0.0")
@@ -33,15 +33,17 @@ implementation("io.github.aghajari:Flexbox-Compose:1.0.0")
 
 ## Usage
 
-### Flexbox Row
+### lazyFlowRow
 
 <img src="./images/main.png" width=320 title="Preview" align="right">
 
 ```kotlin
-Flexbox(
-    flexDirection = FlexDirection.Row,
-    horizontalArrangement = Arrangement.spacedBy(16.dp),
-    verticalArrangement = Arrangement.spacedBy(16.dp),
+LazyFlowRow(
+  horizontalArrangement = Arrangement.spacedBy(16.dp),
+  verticalArrangement = Arrangement.spacedBy(16.dp),
+  modifier = modifier
+    .verticalScroll(rememberScrollState())
+    .padding(16.dp)
 ) {
     // Add items
     items(list) {
@@ -53,15 +55,17 @@ Flexbox(
 }
 ```
 
-### Flexbox Column
+### LazyFlowColumn
 
 <img src="./images/column.png" width=320 title="Preview" align="right">
 
 ```kotlin
-Flexbox(
-    flexDirection = FlexDirection.Column,
-    horizontalArrangement = Arrangement.spacedBy(16.dp),
-    verticalArrangement = Arrangement.spacedBy(16.dp),
+LazyFlowColumn(
+  horizontalArrangement = Arrangement.spacedBy(16.dp),
+  verticalArrangement = Arrangement.spacedBy(16.dp),
+  modifier = modifier
+    .verticalScroll(rememberScrollState())
+    .padding(16.dp)
 ) {
     // Add items
 }
@@ -69,10 +73,10 @@ Flexbox(
 
 ### Arrangements
 
- You can customize the arrangement of both axis in **Flexbox**.
+ You can customize the arrangement of both axis in **LazyFlowLayout**.
  
- * `Row`: **horizontalArrangement** defines the arrangement of Placeables on the line and **verticalArrangement** defines the arrangement of lines.
- * `Column`: **verticalArrangement** defines the arrangement of Placeables on the line and **horizontalArrangement** defines the arrangement of lines.
+ * `LazyFlowRow`: **horizontalArrangement** defines the arrangement of Placeables on the line and **verticalArrangement** defines the arrangement of lines.
+ * `LazyFlowColumn`: **verticalArrangement** defines the arrangement of Placeables on the line and **horizontalArrangement** defines the arrangement of lines.
 
 Examples:
 
@@ -81,8 +85,7 @@ Examples:
 <img src="./images/space_evenly.png" width=320 title="Preview" align="right">
 
 ```kotlin
-Flexbox(
-    flexDirection = FlexDirection.Row,
+LazyFlowRow(
     horizontalArrangement = Arrangement.SpaceEvenly,
     verticalArrangement = Arrangement.spacedBy(16.dp),
 ) {
@@ -95,8 +98,7 @@ Flexbox(
 <img src="./images/row_center.png" width=320 title="Preview" align="right">
 
 ```kotlin
-Flexbox(
-    flexDirection = FlexDirection.Row,
+LazyFlowRow(
     horizontalArrangement =
         Arrangement.spacedBy(16.dp, Alignment.CenterHorizontally),
     verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -110,8 +112,7 @@ Flexbox(
 <img src="./images/row_end.png" width=320 title="Preview" align="right">
 
 ```kotlin
-Flexbox(
-    flexDirection = FlexDirection.Row,
+LazyFlowRow(
     horizontalArrangement =
         Arrangement.spacedBy(16.dp, Alignment.End),
     verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -129,8 +130,7 @@ You can set an optional maximum number of lines.
 <img src="./images/single_line.png" width=320 title="Preview" align="right">
 
 ```kotlin
-Flexbox(
-    flexDirection = FlexDirection.Row,
+LazyFlowRow(
     maxLines = 1,
     ...
 ) {
@@ -147,8 +147,7 @@ You can set the default alignment of Placeables inside a FlexboxLine.
 <img src="./images/item_center.png" width=320 title="Preview" align="right">
 
 ```kotlin
-Flexbox(
-    flexDirection = FlexDirection.Row,
+LazyFlowRow(
     maxLines = 1,
     itemInlineAlignment = Alignment.Center,
 ) {
@@ -161,8 +160,7 @@ Flexbox(
 <img src="./images/item_top.png" width=320 title="Preview" align="right">
 
 ```kotlin
-Flexbox(
-    flexDirection = FlexDirection.Row,
+LazyFlowRow(
     maxLines = 1,
     itemInlineAlignment = Alignment.TopCenter,
 ) {
@@ -170,14 +168,14 @@ Flexbox(
 }
 ```
 
-### Flexbox Animation
+### Animation
 
 Customize the animation of item movements. A **spring** spec will be used for the animation by default.
 
 You can pass `null` to disable the animation.
 
 ```kotlin
-val myAnimation = object : FlexboxAnimation {
+val myAnimation = object : LazyFlowLayoutAnimation {
     override val visibilityThreshold = 0.01f
     override val animationSpec = tween<Float>(
         durationMillis = 600,
@@ -185,8 +183,7 @@ val myAnimation = object : FlexboxAnimation {
     )
 }
 
-Flexbox(
-    flexDirection = FlexDirection.Row,
+LazyFlowRow(
     animation = myAnimation,
 ) {
     // Add items
@@ -217,7 +214,7 @@ Flexbox(...) {
 ```
 
 ## Author
-Amir Hossein Aghajari
+Amir Hossein Aghajari, Javad Jafari
 
 License
 =======

@@ -13,6 +13,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "ComposeFlexbox"
+rootProject.name = "LazyFlowLayout"
 include(":app")
-include(":Flexbox")
+include(":lazyflowlayout")
