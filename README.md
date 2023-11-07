@@ -12,8 +12,8 @@
 ## Table of Contents  
 - [Installation](#installation)  
 - [Usage](#usage)
-  - [LazyFlowRow](#flexbox-row)
-  - [LazyFlowColumn](#flexbox-column)
+  - [LazyFlowRow](#lazyflowrow)
+  - [LazyFlowColumn](#lazyflowcolumn)
   - [Arrangements](#arrangements)
   - [MaxLines](#maxlines)
   - [Item Inline Alignment](#item-inline-alignment)
