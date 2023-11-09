@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.Placeable
 import androidx.compose.ui.layout.SubcomposeLayout
@@ -36,10 +35,10 @@ import androidx.compose.ui.unit.Constraints
  *
  * @param flowLayoutDirection The direction children items are placed, it determines the direction
  *  of the main axis.
+ * @param itemInlineAlignment The default alignment of [Placeable]s inside a [FlowLayoutLine].
  * @param modifier [Modifier] to apply for the layout.
  * @param horizontalArrangement Used to specify the horizontal arrangement of [Placeable]s.
  * @param verticalArrangement Used to specify the vertical arrangement of [Placeable]s.
- * @param itemInlineAlignment The default alignment of [Placeable]s inside a [FlowLayoutLine].
  * @param maxLines an optional maximum number of lines. It must be greater than zero.
  * @param animation The animation of item movements. A [spring] spec will be used for
  *  the animation by default. Pass null to disable the animation.
@@ -51,10 +50,10 @@ import androidx.compose.ui.unit.Constraints
 @Composable
 internal fun LazyFlowLayout(
     flowLayoutDirection: FlowLayoutDirection,
+    itemInlineAlignment: InlineAlignment,
     modifier: Modifier = Modifier,
     horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
     verticalArrangement: Arrangement.Vertical = Arrangement.Top,
-    itemInlineAlignment: Alignment = Alignment.Center,
     maxLines: Int = Int.MAX_VALUE,
     animation: LazyFlowLayoutAnimation? = DefaultLazyFlowLayoutAnimation(),
     content: LazyFlowLayoutScope.() -> Unit

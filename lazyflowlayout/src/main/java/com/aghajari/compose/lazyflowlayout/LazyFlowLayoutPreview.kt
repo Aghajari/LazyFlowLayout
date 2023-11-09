@@ -38,7 +38,7 @@ private fun PreviewLazyFlowColumn(
         verticalArrangement = Arrangement.spacedBy(
             8.dp, Alignment.CenterVertically
         ),
-        itemInlineAlignment = Alignment.Center
+        itemInlineAlignment = Alignment.CenterHorizontally
     )
 }
 
@@ -63,7 +63,7 @@ private fun PreviewLazyFlowRow(
         verticalArrangement = Arrangement.spacedBy(
             8.dp, Alignment.CenterVertically
         ),
-        itemInlineAlignment = Alignment.Center
+        itemInlineAlignment = Alignment.CenterVertically
     )
 }
 
@@ -94,13 +94,7 @@ private class FlowLayoutPreviewParamProvider : PreviewParameterProvider<FlowLayo
         complexSample(),
         {
             items(2) {
-                SampleItem("Row $it")
-            }
-        },
-        complexSample(),
-        {
-            items(2) {
-                SampleItem("Column $it")
+                SampleItem("Item $it")
             }
         }
     )

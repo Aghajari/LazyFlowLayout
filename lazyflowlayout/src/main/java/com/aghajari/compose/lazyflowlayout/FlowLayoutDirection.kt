@@ -4,15 +4,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.layout.MeasureResult
 import androidx.compose.ui.layout.MeasureScope
 import androidx.compose.ui.layout.Placeable
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.IntOffset
-import androidx.compose.ui.unit.IntSize
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.constrainHeight
 import androidx.compose.ui.unit.constrainWidth
 import kotlin.math.max
@@ -61,7 +58,7 @@ internal interface FlowLayoutDirection {
      */
     fun MeasureScope.flowLayout(
         constraints: Constraints,
-        itemInlineAlignment: Alignment,
+        itemInlineAlignment: InlineAlignment,
         animationState: LazyFlowLayoutAnimationState?,
         lines: Set<FlowLayoutLine>,
         horizontalArrangement: Arrangement.Horizontal,
@@ -86,7 +83,7 @@ internal interface FlowLayoutDirection {
 
         override fun MeasureScope.flowLayout(
             constraints: Constraints,
-            itemInlineAlignment: Alignment,
+            itemInlineAlignment: InlineAlignment,
             animationState: LazyFlowLayoutAnimationState?,
             lines: Set<FlowLayoutLine>,
             horizontalArrangement: Arrangement.Horizontal,
@@ -121,9 +118,10 @@ internal interface FlowLayoutDirection {
                             IntOffset(
                                 x = placeablePositions[placeableIndex],
                                 y = outLinesPositions[lineIndex] +
-                                    itemInlineAlignment.alignVertical(
+                                    itemInlineAlignment.align(
                                         placeable.height,
-                                        getLineSpace(line)
+                                        getLineSpace(line),
+                                        layoutDirection
                                     )
                             )
                         )
@@ -152,7 +150,7 @@ internal interface FlowLayoutDirection {
 
         override fun MeasureScope.flowLayout(
             constraints: Constraints,
-            itemInlineAlignment: Alignment,
+            itemInlineAlignment: InlineAlignment,
             animationState: LazyFlowLayoutAnimationState?,
             lines: Set<FlowLayoutLine>,
             horizontalArrangement: Arrangement.Horizontal,
@@ -186,7 +184,7 @@ internal interface FlowLayoutDirection {
                             placeable,
                             IntOffset(
                                 x = outLinesPositions[lineIndex] +
-                                    itemInlineAlignment.alignHorizontal(
+                                    itemInlineAlignment.align(
                                         placeable.width,
                                         getLineSpace(line),
                                         layoutDirection
@@ -264,37 +262,6 @@ internal fun FlowLayoutDirection.resolveSpacingsInPx(
             )
         }
     }
-}
-
-/**
- * Calculates the horizontal position of a box of width [size]
- * relative to the left side of an area of width [space].
- */
-private fun Alignment.alignHorizontal(
-    size: Int,
-    space: Int,
-    layoutDirection: LayoutDirection
-): Int {
-    return align(
-        IntSize(size, size),
-        IntSize(space, space),
-        layoutDirection
-    ).x
-}
-
-/**
- * Calculates the vertical position of a box of height [size]
- * relative to the top edge of an area of height [space].
- */
-private fun Alignment.alignVertical(
-    size: Int,
-    space: Int
-): Int {
-    return align(
-        IntSize(size, size),
-        IntSize(space, space),
-        LayoutDirection.Ltr
-    ).y
 }
 
 /**
