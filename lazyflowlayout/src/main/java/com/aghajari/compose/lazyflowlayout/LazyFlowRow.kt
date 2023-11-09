@@ -12,6 +12,7 @@ fun LazyFlowRow(
     verticalArrangement: Arrangement.Vertical = Arrangement.Top,
     itemInlineAlignment: Alignment.Vertical = Alignment.CenterVertically,
     maxLines: Int = Int.MAX_VALUE,
+    maxItemsInEachLine: Int = Int.MAX_VALUE,
     animation: LazyFlowLayoutAnimation? = DefaultLazyFlowLayoutAnimation(),
     content: LazyFlowLayoutScope.() -> Unit
 ) {
@@ -22,6 +23,7 @@ fun LazyFlowRow(
         verticalArrangement = verticalArrangement,
         itemInlineAlignment = VerticalInlineAlignment(itemInlineAlignment),
         maxLines = maxLines,
+        maxItemsInEachLine = maxItemsInEachLine,
         animation = animation,
         content = content
     )

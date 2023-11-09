@@ -12,6 +12,7 @@ fun LazyFlowColumn(
     verticalArrangement: Arrangement.Vertical = Arrangement.Top,
     itemInlineAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
     maxLines: Int = Int.MAX_VALUE,
+    maxItemsInEachLine: Int = Int.MAX_VALUE,
     animation: LazyFlowLayoutAnimation? = DefaultLazyFlowLayoutAnimation(),
     content: LazyFlowLayoutScope.() -> Unit
 ) {
@@ -22,6 +23,7 @@ fun LazyFlowColumn(
         verticalArrangement = verticalArrangement,
         itemInlineAlignment = HorizontalInlineAlignment(itemInlineAlignment),
         maxLines = maxLines,
+        maxItemsInEachLine = maxItemsInEachLine,
         animation = animation,
         content = content
     )

@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.Constraints
  * @param horizontalArrangement Used to specify the horizontal arrangement of [Placeable]s.
  * @param verticalArrangement Used to specify the vertical arrangement of [Placeable]s.
  * @param maxLines an optional maximum number of lines. It must be greater than zero.
+ * @param maxItemsInEachLine The maximum number of items per line. It must be greater than zero.
  * @param animation The animation of item movements. A [spring] spec will be used for
  *  the animation by default. Pass null to disable the animation.
  * @param content a block which describes the content. Inside this block you can use methods
@@ -55,11 +56,12 @@ internal fun LazyFlowLayout(
     horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
     verticalArrangement: Arrangement.Vertical = Arrangement.Top,
     maxLines: Int = Int.MAX_VALUE,
+    maxItemsInEachLine: Int = Int.MAX_VALUE,
     animation: LazyFlowLayoutAnimation? = DefaultLazyFlowLayoutAnimation(),
     content: LazyFlowLayoutScope.() -> Unit
 ) = with(flowLayoutDirection) {
-    require(maxLines > 0) {
-        "maxLines must be greater than zero."
+    require(maxLines > 0 && maxItemsInEachLine > 0) {
+        "maxLines and maxItemsInEachLine must be greater than zero."
     }
 
     val itemProvider = rememberLazyFlowLayoutItemProvider(content)
@@ -99,17 +101,24 @@ internal fun LazyFlowLayout(
 
             // We never can lay out this item!
             if (contentSpace > constraints.flexSpace ||
-                contentLineSpace > availableLineSpace
+                contentLineSpace > availableLineSpace ||
+                itemContents.size > maxItemsInEachLine
             ) {
                 return@forEach true
             }
 
-            val added = currentLine.addPlaceables(
-                itemContents,
-                constraints.flexSpace,
-                contentSpace,
-                itemsPaddingPx
-            )
+            val numItems = currentLine.sizeOfItems() + itemContents.size
+            val added = if (numItems <= maxItemsInEachLine) {
+                currentLine.addPlaceables(
+                    itemContents,
+                    constraints.flexSpace,
+                    contentSpace,
+                    itemsPaddingPx
+                )
+            } else {
+                false
+            }
+
             if (added.not()) {
                 availableLineSpace -= getLineSpace(currentLine) + linesPaddingPx
                 if (lines.size + 1 >= maxLines || availableLineSpace < contentLineSpace) {
@@ -135,8 +144,10 @@ internal fun LazyFlowLayout(
             }
         }
         animationState?.endComposition()
-        currentLine.close(itemsPaddingPx)
-        lines.add(currentLine)
+        if (currentLine.sizeOfItems() > 0) {
+            currentLine.close(itemsPaddingPx)
+            lines.add(currentLine)
+        }
 
         flowLayout(
             constraints,

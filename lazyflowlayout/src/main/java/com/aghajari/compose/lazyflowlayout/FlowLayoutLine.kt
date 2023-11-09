@@ -14,12 +14,12 @@ internal class FlowLayoutLine {
     /**
      * List of all [Placeable]s on this line.
      */
-    internal val placeables: MutableList<Placeable> = mutableListOf()
+    val placeables: MutableList<Placeable> = mutableListOf()
 
     /**
      * The maximum space that the [Placeable]s on this line occupy.
      */
-    internal var usedSpace: Int = 0
+    var usedSpace: Int = 0
         private set
 
     /**
@@ -28,7 +28,7 @@ internal class FlowLayoutLine {
      * @return True if all of the [placeables] can fit on this line.
      *  False otherwise.
      */
-    internal fun addPlaceables(
+    fun addPlaceables(
         placeables: List<Placeable>,
         flexSpace: Int,
         contentSpace: Int,
@@ -46,7 +46,9 @@ internal class FlowLayoutLine {
     /**
      * Notifies that no more [Placeable] can fit on this line.
      */
-    internal fun close(padding: Int) {
+    fun close(padding: Int) {
         usedSpace = max(usedSpace - padding, 0)
     }
+
+    fun sizeOfItems() = placeables.size
 }
