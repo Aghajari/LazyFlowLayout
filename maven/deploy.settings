@@ -1,8 +1,8 @@
-siteUrl = https://github.com/Aghajari/Flexbox-Compose
-gitUrl = https://github.com/Aghajari/Flexbox-Compose.git
-version = 1.0.0
+siteUrl = https://github.com/Aghajari/LazyFlowLayout
+gitUrl = https://github.com/Aghajari/LazyFlowLayout.git
+version = 1.1.0
 groupId = io.github.aghajari
 licenses = ['Apache-2.0']
-id = Flexbox-Compose
-name = Flexbox-Compose
+id = LazyFlowLayout
+name = LazyFlowLayout
 description = A Jetpack Compose layout that places its children in a way that CSS Flexible Box Layout Module does.

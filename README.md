@@ -140,7 +140,7 @@ LazyFlowRow(
 
 ### Item Inline Alignment
 
-You can set the default alignment of Placeables inside a FlexboxLine.
+You can set the default alignment of Placeables inside a FlowLayoutLine.
 
 - **Center**
 
