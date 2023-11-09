@@ -17,7 +17,7 @@
   - [Arrangements](#arrangements)
   - [MaxLines](#maxlines)
   - [Item Inline Alignment](#item-inline-alignment)
-  - [Animation](#flexbox-animation)
+  - [Animation](#animation)
   - [Key Identifier](#key-identifier)
 - [Author](#author)
 - [License](#license)
@@ -33,7 +33,7 @@ implementation("io.github.aghajari:Flexbox-Compose:1.0.0")
 
 ## Usage
 
-### lazyFlowRow
+### LazyFlowRow
 
 <img src="./images/main.png" width=320 title="Preview" align="right">
 
@@ -149,7 +149,7 @@ You can set the default alignment of Placeables inside a FlexboxLine.
 ```kotlin
 LazyFlowRow(
     maxLines = 1,
-    itemInlineAlignment = Alignment.Center,
+    itemInlineAlignment = Alignment.CenterVertically,
 ) {
     // Add items
 }
@@ -162,7 +162,7 @@ LazyFlowRow(
 ```kotlin
 LazyFlowRow(
     maxLines = 1,
-    itemInlineAlignment = Alignment.TopCenter,
+    itemInlineAlignment = Alignment.Top,
 ) {
     // Add items
 }
