@@ -1,5 +1,6 @@
 package com.aghajari.compose.lazyflowlayout
 
+import androidx.annotation.IntRange
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -55,15 +56,11 @@ internal fun LazyFlowLayout(
     modifier: Modifier = Modifier,
     horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
     verticalArrangement: Arrangement.Vertical = Arrangement.Top,
-    maxLines: Int = Int.MAX_VALUE,
-    maxItemsInEachLine: Int = Int.MAX_VALUE,
+    @IntRange(from = 1) maxLines: Int = Int.MAX_VALUE,
+    @IntRange(from = 1) maxItemsInEachLine: Int = Int.MAX_VALUE,
     animation: LazyFlowLayoutAnimation? = DefaultLazyFlowLayoutAnimation(),
     content: LazyFlowLayoutScope.() -> Unit
 ) = with(flowLayoutDirection) {
-    require(maxLines > 0 && maxItemsInEachLine > 0) {
-        "maxLines and maxItemsInEachLine must be greater than zero."
-    }
-
     val itemProvider = rememberLazyFlowLayoutItemProvider(content)
     val (itemsPaddingPx, linesPaddingPx) = resolveSpacingsInPx(
         horizontalArrangement,
@@ -92,12 +89,8 @@ internal fun LazyFlowLayout(
                 return@forEach true
             }
 
-            val contentSpace = itemContents
-                .map { it.flexContentSpace }
-                .reduce(Int::plus)
-            val contentLineSpace = itemContents
-                .map { it.flexContentLineSpace }
-                .reduce(Int::plus)
+            val contentSpace = itemContents.sumOf { it.flexContentSpace }
+            val contentLineSpace = itemContents.sumOf { it.flexContentLineSpace }
 
             // We never can lay out this item!
             if (contentSpace > constraints.flexSpace ||
