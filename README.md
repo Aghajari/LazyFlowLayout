@@ -1,7 +1,7 @@
 # LazyFlowLayout
 [![Platform](https://img.shields.io/badge/platform-android-green.svg)](http://developer.android.com/index.html)
 [![API](https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=21)
-[![Maven Central](https://img.shields.io/maven-central/v/io.github.aghajari/Flexbox-Compose.svg?label=Maven%20Central)](https://search.maven.org/artifact/io.github.aghajari/Flexbox-Compose/1.0.0/aar)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.aghajari/Flexbox-Compose.svg?label=Maven%20Central)](https://search.maven.org/artifact/io.github.aghajari/LazyFlowLayout/1.1.0/aar)
 [![Join the chat at https://gitter.im/Aghajari/community](https://badges.gitter.im/Aghajari/community.svg)](https://gitter.im/Aghajari/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
  A [Jetpack Compose](https://developer.android.com/jetpack/compose) [layout](https://developer.android.com/jetpack/compose/layouts) that places its children in a way that [CSS Flexible Box Layout](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout) Module does.
@@ -28,7 +28,7 @@
 **LazyFlowLayout** is available in the `mavenCentral()`, so you just need to add it as a dependency (Module gradle)
 
 ```gradle
-implementation("io.github.aghajari:Flexbox-Compose:1.0.0")
+implementation("io.github.aghajari:LazyFlowLayout:1.1.0")
 ```
 
 ## Usage
